@@ -7,16 +7,16 @@ class Pet
   attr_accessor :id, :name, :type, :image, :pet_store_id
 
   def initialize( params )
-    @id = options[ 'id' ].to_i
-    @name = options[ 'name' ]
-    @type = options[ 'type' ]
-    @image = options[ 'image' ]
-    @pet_store_id = options[ 'pet_store_id' ].to_i
+    @id = params[ 'id' ].to_i
+    @name = params[ 'name' ]
+    @type = params[ 'type' ]
+    @image = params[ 'image' ]
+    @pet_store_id = params[ 'pet_store_id' ].to_i
   end
 
   def save()
     sql = "INSERT INTO pets ( name, type, image, pet_store_id ) 
-          VALUES ( '#{ @name }', #{ @type }, #{ image }, #{ pet_store_id } ) RETURNING *;"
+          VALUES ( '#{ @name }', '#{ @type }', '#{ image }', #{ pet_store_id } ) RETURNING *;"
     pet = SqlRunner.run( sql ).first
     result = Pet.new( pet )
     return result
@@ -42,7 +42,7 @@ class Pet
 
 
   def self.all()
-    db = PG.connect( { dbname: 'pet_store_chain', host: 'localhost' } )
+    db = PG.connect( { dbname: 'pet_store', host: 'localhost' } )
     sql = "SELECT * FROM pets;"
     
     pets = db.exec( sql )

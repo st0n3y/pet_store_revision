@@ -7,16 +7,16 @@ class PetStore
   attr_accessor :id, :name, :address, :stock_type
 
   def initialize( params )
-    @id = options[ 'id' ].to_i
-    @name = options[ 'name' ]
-    @address = options[ 'address' ]
-    @stock_type = options[ 'stock_type' ]
+    @id = params[ 'id' ].to_i
+    @name = params[ 'name' ]
+    @address = params[ 'address' ]
+    @stock_type = params[ 'stock_type' ]
   end
 
 
   def save()
     sql = "INSERT INTO pet_stores ( name, address, stock_type ) 
-          VALUES ( '#{ @name }', #{ @address }, #{ stock_type } ) RETURNING *;"
+          VALUES ( '#{ @name }', '#{ @address }', '#{ stock_type }' ) RETURNING *;"
     pet_store = SqlRunner.run( sql ).first
     result = PetStore.new( pet_store )
     return result
@@ -25,7 +25,7 @@ class PetStore
 
   def update()
       sql = "UPDATE pets
-            SET name = #{ @name }, type = #{ @type }, image = #{ @image }, pet_store_id = #{ pet_store_id }
+            SET name = '#{ @name }', type = #{ @type }, image = #{ @image }, pet_store_id = #{ pet_store_id }
             WHERE id = #{ @id };"
 
       db.exec( sql )
@@ -42,7 +42,7 @@ class PetStore
 
 
   def self.all()
-    db = PG.connect( { dbname: 'pet_store_chain', host: 'localhost' } )
+    db = PG.connect( { dbname: 'pet_store', host: 'localhost' } )
     sql = "SELECT * FROM pet_stores;"
     
     pet_stores = db.exec( sql )
