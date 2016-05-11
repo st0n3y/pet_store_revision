@@ -28,26 +28,32 @@ class PetStore
             SET name = '#{ @name }', type = #{ @type }, image = #{ @image }, pet_store_id = #{ pet_store_id }
             WHERE id = #{ @id };"
 
-      db.exec( sql )
-      db.close()
+      pet_store = SqlRunner.run( sql )
+      result = PetStore.new( pet_store )
+      return result
   end
 
 
   def delete()
     sql = "DELETE FROM pet_stores WHERE id = #{@id};"
 
-    db.exec( sql )
-    db.close()
+    SqlRunner.run( sql )
   end
 
 
   def self.all()
-    db = PG.connect( { dbname: 'pet_store', host: 'localhost' } )
     sql = "SELECT * FROM pet_stores;"
     
-    pet_stores = db.exec( sql )
-    db.close()
+    pet_stores = SqlRunner.run( sql )
     return pet_stores.map { |pet_store| PetStore.new( pet_store ) }
   end
 
 end
+
+# def artist()
+#   sql = "SELECT * FROM artists
+#         WHERE id = #{ @artists_id };"
+#   artist = SqlRunner.run( sql ).first
+#   result = Artist.new( artist )
+#   return result
+# end
