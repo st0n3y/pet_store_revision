@@ -7,5 +7,7 @@ pet_store1 = PetStore.new( { 'name' => 'Bark Side of the Moon', 'address' => '12
 
 pet1 = Pet.new( { 'name' => 'Darth', 'type' => 'pygmy marmoset', 'image' => 'http://images.wisegeek.com/small-marmoset.jpg', 'pet_store_id' => pet_store1.id } ).save()
 
+pet2 = Pet.new( { 'name' => 'Mammer Jammer', 'type' => 'pygmy marmoset', 'image' => 'http://images.wisegeek.com/small-marmoset.jpg', 'pet_store_id' => pet_store1.id } ).save()
+
 binding.pry
 nil

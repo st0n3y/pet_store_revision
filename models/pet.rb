@@ -25,17 +25,21 @@ class Pet
 
   def update()
     sql = "UPDATE pets
-          SET name = #{ @name }, type = #{ @type }, image = #{ @image }, pet_store_id = #{ pet_store_id }
-          WHERE id = #{ @id };"
-
-    pet = SqlRunner.run( sql )
+          SET name = '#{ @name }', 
+          type = '#{ @type }', 
+          image = '#{ @image }',
+          pet_store_id = #{ @pet_store_id }
+          WHERE id = #{ @id }
+          RETURNING *;"
+    pet = SqlRunner.run( sql ).first
     result = Pet.new( pet )
     return result
   end
 
 
   def delete()
-    sql = "DELETE FROM pets WHERE id = #{@id};"
+    sql = "DELETE FROM pets 
+          WHERE id = #{@id};"
   
   SqlRunner.run( sql )
   end
