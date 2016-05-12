@@ -56,7 +56,7 @@ class PetStore
     sql = "SELECT * FROM pets 
           WHERE pet_store_id = #{ @id };"
     pets = SqlRunner.run( sql )
-    result = Pet.new( pets )
+    result = pets.map { |pet| Pet.new( pet ) }
     return result
   end
 
